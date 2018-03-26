@@ -10,6 +10,7 @@
 #include <cstring>
 
 #include "CoinHelperFunctions.hpp"
+#include "CoinWarmStartBasis.hpp"
 #include "ClpConfig.h"
 #include "ClpSimplex.hpp"
 #include "ClpInterior.hpp"
@@ -367,12 +368,22 @@ Clp_chgColumnUpper(Clp_Simplex * model, const double * columnUpper)
 {
      model->model_->chgColumnUpper(columnUpper);
 }
+
 /* Change objective coefficients */
 COINLIBAPI void COINLINKAGE
 Clp_chgObjCoefficients(Clp_Simplex * model, const double * objIn)
 {
      model->model_->chgObjCoefficients(objIn);
 }
+
+/** Change objective coefficient */
+COINLIBAPI void COINLINKAGE 
+Clp_setObjCoeff(Clp_Simplex * model, int col, double coeff)
+{
+     model->model_->setObjCoeff(col, coeff);
+}
+
+
 /* Drops names - makes lengthnames 0 and names empty */
 COINLIBAPI void COINLINKAGE
 Clp_dropNames(Clp_Simplex * model)
@@ -1103,6 +1114,13 @@ Clp_getObjCoefficients(Clp_Simplex * model)
 {
      return model->model_->getObjCoefficients();
 }
+
+/** get coefficient in row ir and column ic */
+COINLIBAPI const double COINLINKAGE 
+Clp_getMatrixCoefficient(Clp_Simplex * model , int ir, int ic){
+     return model->model_->matrix()->getCoefficient(ir, ic);
+}
+
 /* Column Lower */
 COINLIBAPI const double * COINLINKAGE
 Clp_getColLower(Clp_Simplex * model)
@@ -1133,6 +1151,17 @@ Clp_getRowStatus(Clp_Simplex * model, int sequence)
 {
      return (int) model->model_->getRowStatus(sequence);
 }
+
+COINLIBAPI char * COINLINKAGE Clp_getBasisStructuralStatus(Clp_Simplex * model)
+{
+     return model->model_->getBasis()->getStructuralStatus();
+}
+
+COINLIBAPI char * COINLINKAGE Clp_getBasisArtificialStatus(Clp_Simplex * model)
+{
+     return model->model_->getBasis()->getArtificialStatus();
+}
+
 /* Set variable basis info */
 COINLIBAPI void COINLINKAGE
 Clp_setColumnStatus(Clp_Simplex * model, int sequence, int value)

@@ -132,10 +132,15 @@ extern "C" {
      /** Change column lower bounds */
      COINLIBAPI void COINLINKAGE Clp_chgColumnLower(Clp_Simplex * model, const double * columnLower);
      /** Change column upper bounds */
-     COINLIBAPI void COINLINKAGE Clp_chgColumnUpper(Clp_Simplex * model, const double * columnUpper);
+     COINLIBAPI void COINLINKAGE Clp_chgColumnUpper(Clp_Simplex * model, const double * columnUpper);     
      /** Change objective coefficients */
-     COINLIBAPI void COINLINKAGE Clp_chgObjCoefficients(Clp_Simplex * model, const double * objIn);
+     COINLIBAPI void COINLINKAGE Clp_chgObjCoefficients(Clp_Simplex * model, const double * objIn);     
+     /** Change objective coefficient */
+     COINLIBAPI void COINLINKAGE Clp_setObjCoeff(Clp_Simplex * model, int col, double coeff);
+     
      /** Drops names - makes lengthnames 0 and names empty */
+      
+     
      COINLIBAPI void COINLINKAGE Clp_dropNames(Clp_Simplex * model);
      /** Copies in names */
      COINLIBAPI void COINLINKAGE Clp_copyNames(Clp_Simplex * model, const char * const * rowNames,
@@ -258,6 +263,10 @@ extern "C" {
      COINLIBAPI int COINLINKAGE Clp_getColumnStatus(Clp_Simplex * model, int sequence);
      /* Get row basis info */
      COINLIBAPI int COINLINKAGE Clp_getRowStatus(Clp_Simplex * model, int sequence);
+
+     COINLIBAPI char * COINLINKAGE Clp_getBasisStructuralStatus(Clp_Simplex * model);
+     COINLIBAPI char * COINLINKAGE Clp_getBasisArtificialStatus(Clp_Simplex * model);
+
      /* Set variable basis info (and value if at bound) */
      COINLIBAPI void COINLINKAGE Clp_setColumnStatus(Clp_Simplex * model,
                int sequence, int value);
@@ -435,6 +444,10 @@ extern "C" {
      COINLIBAPI const double* COINLINKAGE Clp_getRowUpper(Clp_Simplex * model);
      /** Objective */
      COINLIBAPI const double * COINLINKAGE Clp_getObjCoefficients(Clp_Simplex * model);
+     
+     /** get coefficient in row ir and column ic */
+     COINLIBAPI const double COINLINKAGE Clp_getMatrixCoefficient(Clp_Simplex * model, int ir, int ic);
+     
      /** Column Lower */
      COINLIBAPI const double * COINLINKAGE Clp_getColLower(Clp_Simplex * model);
      /** Column Upper */
